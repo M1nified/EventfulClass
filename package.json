@@ -1,8 +1,14 @@
 {
   "name": "eventfulclass",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
+  "types": "./types/Eventful.d.ts",
+  "files": [
+    "dist/**/*.js",
+    "types/**/*.d.ts",
+    "test/**/*.js"
+  ],
   "scripts": {
     "test": "mocha",
     "test-watch": "mocha -w",
@@ -13,7 +19,7 @@
     "type": "git",
     "url": "git+https://github.com/M1nified/EventfulClass.git"
   },
-  "author": "M1nified",
+  "author": "M1nified <m1nified.dev@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/M1nified/EventfulClass/issues"

@@ -138,4 +138,83 @@ describe('class extending Eventful', function () {
             })
         })
     })
+
+    describe('trigger()', function () {
+        let valToBeChanged1 = 0,
+            valToBeChanged2 = 0,
+            valToBeChanged3 = 0,
+            valToInc1 = 0;
+        const noArgsTrigger = () => valToBeChanged1 = 10;
+        const oneArgTrigger1 = x => valToBeChanged1 = x;
+        const oneArgTrigger2 = x => valToBeChanged2 = x;
+        const twoArgsTrigger1 = (a,b) => valToBeChanged3 = a + b;
+        this.beforeEach(function () {
+            valToBeChanged1 = 0;
+            valToBeChanged2 = 0
+            class1Instance1
+                .on('noArgsTrigger', noArgsTrigger)
+                .on('oneArgTrigger', oneArgTrigger1)
+                .on('oneArgTrigger', oneArgTrigger2)
+                .on('twoArgsTrigger', twoArgsTrigger1)
+                .once('singleEvent', () => valToInc1++)
+        })
+        it('should execute trigger', function () {
+            class1Instance1.trigger('noArgsTrigger');
+            valToBeChanged1.should.be.equal(10);
+        })
+        it('should execute multiple triggers', function () {
+            class1Instance1.trigger('oneArgTrigger');
+            expect(valToBeChanged1).to.be.an('undefined')
+            expect(valToBeChanged2).to.be.an('undefined')
+        })
+        describe('taking some arguments', function () {
+            it('should execute trigger', function () {
+                valToBeChanged1.should.be.equal(0);
+                class1Instance1.trigger('noArgsTrigger', [1]);
+                valToBeChanged1.should.be.equal(10);
+                valToBeChanged3.should.be.equal(0);
+                class1Instance1.trigger('twoArgsTrigger', [1, 2]);
+                valToBeChanged3.should.be.equal(3);
+            })
+            it('should execute multiple triggers', function () {
+                class1Instance1.trigger('oneArgTrigger', [1]);
+                valToBeChanged1.should.be.equal(1)
+                valToBeChanged2.should.be.equal(1)
+            })
+        })
+        describe('called from class function', function () {
+            this.beforeEach(function () {
+                class1Instance1
+                    .on('function1Complete', function () { this.function1marker = 10 })
+                    .on('function2Complete', function (x) { this.function2marker1 = x })
+                    .on('function2Complete', function (x) { this.function2marker2 = 2 * x })
+            })
+            it('should execute action with 0 arguments an modify class instance property', function () {
+                class1Instance1.function1();
+                class1Instance1.function1marker.should.be.equal(10)
+            })
+            it('should execute action with 1 argument an modify class instance property', function () {
+                class1Instance1.function2(5);
+                class1Instance1.function2marker1.should.be.equal(5)
+                class1Instance1.function2marker2.should.be.equal(10)
+            })
+        })
+        describe('called for once event', function () {
+            let eventsLen;
+            this.beforeEach(function () {
+                eventsLen = class1Instance1._events.length;
+                class1Instance1.trigger('singleEvent')
+                class1Instance1.trigger('singleEvent')
+            })
+            it('should execute once', function () {
+                valToInc1.should.be.equal(1);
+            })
+            it('should remove listener', function () {
+                class1Instance1._events.should.have.lengthOf(eventsLen - 1)
+            })
+        })
+    })
+    describe('off()', function(){
+        
+    })
 })

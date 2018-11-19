@@ -61,4 +61,13 @@ export default class Eventful {
         }
     }
 
+    /**
+     * 
+     * @param eventName 
+     * @param args 
+     */
+    protected trigger(eventName: String, args: any[] = []) {
+        this.getTrigger(eventName)(...args);
+    }
+
 }
