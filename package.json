@@ -1,0 +1,28 @@
+{
+  "name": "eventfulclass",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "test-watch": "mocha -w",
+    "build": "tsc",
+    "build-watch": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/M1nified/EventfulClass.git"
+  },
+  "author": "M1nified",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/M1nified/EventfulClass/issues"
+  },
+  "homepage": "https://github.com/M1nified/EventfulClass#readme",
+  "devDependencies": {
+    "@types/node": "^10.12.9",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "typescript": "^3.1.6"
+  }
+}
